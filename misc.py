@@ -153,7 +153,7 @@ class Distribution(object):
 		import matplotlib.pyplot as plt
 
 		# generate the specified number of samples
-		samples = [ self.sample() for _ in xrange(n_of_samples) ]
+		samples = [ self.sample() for _ in range(n_of_samples) ]
 		
 		# plot them as a histogram
 		plt.hist(samples, 100)

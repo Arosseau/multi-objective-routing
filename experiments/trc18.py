@@ -77,14 +77,14 @@ class trc18(experiment):
             
             # if the control file is empty (this is not expected) throw exception
             if os.stat(control_file_name).st_size < 3:
-                print 'The control file is empty!'
+                print('The control file is empty!')
                 sys.exit()
             
             control_file = open(control_file_name, 'r+')
             
             status = control_file.read().strip()
             if status == 'finished':
-                print 'Experiment already finished!'
+                print('Experiment already finished!')
                 sys.exit()
             
             else:
@@ -97,7 +97,7 @@ class trc18(experiment):
             control_file = open(control_file_name, 'w+')
             control_file.write('1#0')
         
-        print 'Running %d experiments%s...' % (N_EXPERIMENTS, '' if CUR_ATEMPT == 1 else ' (attempt number %d, skipping %d experiments)'%(CUR_ATEMPT, LAST_EXP))
+        print('Running %d experiments%s...' % (N_EXPERIMENTS, '' if CUR_ATEMPT == 1 else ' (attempt number %d, skipping %d experiments)'%(CUR_ATEMPT, LAST_EXP)))
         
         sys.stdout = open('experiments/results/log_params_TRC%s.txt'%('' if CUR_ATEMPT == 1 else '_attempt%d'%CUR_ATEMPT), 'w')
         
@@ -110,11 +110,11 @@ class trc18(experiment):
         # defined in the file
         for SET in SETS:
             order = SET[-1]
-            for p1 in xrange(SET[0][1]):
-                for p2 in xrange(SET[1][1]):
-                    for p3 in xrange(SET[2][1]):
-                        for p4 in xrange(SET[3][1]):
-                            for p5 in xrange(SET[4][1]):
+            for p1 in range(SET[0][1]):
+                for p2 in range(SET[1][1]):
+                    for p3 in range(SET[2][1]):
+                        for p4 in range(SET[3][1]):
+                            for p5 in range(SET[4][1]):
                                 
                                 pars = [p1, p2, p3, p4, p5]
                                 rep = SET[order['rep']][2][pars[order['rep']]]
@@ -125,13 +125,13 @@ class trc18(experiment):
                                 
                                 CUR_EXP += 1
                                 
-                                print '========================================================================'
-                                print ' Experiment %i of %i' % (CUR_EXP, N_EXPERIMENTS)
-                                print ' network=%s, k=%d, decay=%f, app=%s, replication=%i' % (net_name, K, decay, app, rep)
-                                print '========================================================================\n'
+                                print('========================================================================')
+                                print(' Experiment %i of %i' % (CUR_EXP, N_EXPERIMENTS))
+                                print(' network=%s, k=%d, decay=%f, app=%s, replication=%i' % (net_name, K, decay, app, rep))
+                                print('========================================================================\n')
                                 
                                 if CUR_EXP <= LAST_EXP:
-                                    print 'Skipped!\n'
+                                    print ('Skipped!\n')
                                 
                                 else:
                                     
@@ -146,7 +146,7 @@ class trc18(experiment):
                                     try:
                                         values = run_simulation(P, 1000, alpha=1.0, epsilon=1.0, alpha_decay=decay, epsilon_decay=decay, min_alpha=0.0, min_epsilon=0.0, normalise_costs=True, regret_as_cost=True, extrapolate_costs=True, use_app=app, plot_results=False)
                                     except Exception:
-                                        print '[ERROR] Some exception prevented this experiment from finishing!'
+                                        print('[ERROR] Some exception prevented this experiment from finishing!')
                                     else:
                                         None
                                     runtime = time.time() - start
@@ -155,7 +155,7 @@ class trc18(experiment):
                                     fname.write('%i\t%s\t%d\t%f\t%s\t%i\t%f\t%f\t%f\t%f\n' % (CUR_EXP, net_name, K, decay, app, rep, values[0], values[1], values[2], runtime))
                                     fname.flush()
                                     
-                                    print '\n========================================================================\n'
+                                    print('\n========================================================================\n')
                                     sys.stdout.flush()
                                     
                                     LAST_EXP = CUR_EXP
@@ -173,7 +173,7 @@ class trc18(experiment):
         sys.stdout = sys.__stdout__
         control_file.close()
         
-        print 'finished!'
+        print('finished!')
 
     #-----------------------------------------------------------------------
     # check whether the script is still producing the original results 
@@ -182,7 +182,7 @@ class trc18(experiment):
     # results should not change given the same random seed is used
     def validate_script(self):
         
-        print "Validating script (it takes around 1 minute)..."
+        print("Validating script (it takes around 1 minute)...")
          
         sys.stdout = open(os.devnull, 'w')
          
@@ -283,7 +283,7 @@ class trc18(experiment):
             sys.stderr.write("Error while validating script on network %s! [%s]\n" % (net, ', '.join(map(str,[repr(x) for x in res]))))
          
         sys.stdout = sys.__stdout__
-        print "\nFinished!"
+        print("\nFinished!")
 
     #-----------------------------------------------------------------------
 

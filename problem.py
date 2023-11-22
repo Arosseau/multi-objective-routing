@@ -205,7 +205,7 @@ class ProblemInstance:
 		# print function warnings 
 		for func in F:
 			if F[func][4]:
-				print F[func][4]
+				print(F[func][4])
 
 		# define the links' normalisation factor
 		for l in self.__L.values():
@@ -290,13 +290,13 @@ class ProblemInstance:
 		# check if the solution is valid
 		if check_consistency:
 			if sum([ sum(x) for x in solution ]) != self.get_total_flow():
-				print '[WARNING] The solution is not valid! (current flow %f differs from the expected one %f)' % (sum([ sum(x) for x in solution ]), self.get_total_flow())
+				print('[WARNING] The solution is not valid! (current flow %f differs from the expected one %f)' % (sum([ sum(x) for x in solution ]), self.get_total_flow()))
 		
 		self.reset_graph()
 		
 		# update the flow (and aggregated time flexibility) on each link
-		for i_od in xrange(len(solution)):
-			for i_od_route in xrange(len(solution[i_od])):
+		for i_od in range(len(solution)):
+			for i_od_route in range(len(solution[i_od])):
 				flow = solution[i_od][i_od_route]
 				time_flexibility = solution_time_flexibility[i_od][i_od_route]
 				if flow > 0.0:
@@ -309,8 +309,8 @@ class ProblemInstance:
 		# total costs (i.e., the sum of travel time of all agents)
 		total_cost = 0.0 # non-normalised
 		normalised_total_cost = 0.0 # normalised
-		for i_od in xrange(len(solution)):
-			for i_od_route in xrange(len(solution[i_od])):
+		for i_od in range(len(solution)):
+			for i_od_route in range(len(solution[i_od])):
 				route = self.__routes[self.__OD_matrix.get_order_OD(i_od)][i_od_route]
 				route.update_cost()
 				total_cost += route.get_cost(False) * solution[i_od][i_od_route]

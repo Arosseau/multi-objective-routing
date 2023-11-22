@@ -249,7 +249,7 @@ def findShortestPath(N, E, origin, destination, ignoredEdges):
 # generate a string from the path S in a specific format
 def pathToString(S, E):
 	strout = '['
-	for i in xrange(0,len(S)-1):
+	for i in range(0,len(S)-1):
 		if i > 0:
 			strout += ', '
 		strout += '\'' + getEdge(E, S[i].name, S[i+1].name).name + '\''
@@ -258,7 +258,7 @@ def pathToString(S, E):
 # generate a list with the edges' names of a given route S
 def pathToListOfString(S, E):
 	lout = []
-	for i in xrange(0,len(S)-1):
+	for i in range(0,len(S)-1):
 		lout.append(getEdge(E, S[i].name, S[i+1].name).name)
 	return lout
 
@@ -329,12 +329,12 @@ def KShortestPaths(V, E, origin, destination, K):
 	# potential shortest paths
 	B = []
 	
-	for k in xrange(1,K+1):
+	for k in range(1,K+1):
 		try:
 			if not runKShortestPathsStep(V, E, origin, destination, k, A, B):
 				break
 		except:
-			print 'Problem on generating more paths! Only %d paths were found!' % (k-1)
+			print('Problem on generating more paths! Only %d paths were found!' % (k-1))
 			break
 		
 	return A
@@ -360,29 +360,29 @@ def run(graph_file, K, OD_pairs=None, flow=0.0):
 	# user, then all OD pairs from the network file are considered)
 	if OD_pairs != None:
 		OD = OD_pairs.split(';')
-	for i in xrange(0,len(OD)):
+	for i in range(0,len(OD)):
 		OD[i] = OD[i].split('|')
 	
 	# find K shortest paths of each OD-pair
-	print 'ksptable = ['
+	print('ksptable = [')
 	lastod = len(OD)-1
 	for iod, (o, d) in enumerate(OD):
 		# find K shortest paths for this specific OD-pair
 		S = KShortestPaths(N, E, o, d, K)
 		
 		# print the result for this specific OD-pair
-		print '\t[ # ' + str(o) + '|' + str(d) + ' flow'
+		print('\t[ # ' + str(o) + '|' + str(d) + ' flow')
 		last = len(S)-1
 		for i, path in enumerate(S):
 			comma = ','
 			if i == last:
 				comma = ''
-			print '\t\t' + pathToString(path, E) + comma + " # cost " + str(calcPathCost(path, E))
+			print('\t\t' + pathToString(path, E) + comma + " # cost " + str(calcPathCost(path, E)))
 		comma = ','
 		if iod == lastod:
 			comma = ''
-		print '\t]' + comma
-	print ']'
+		print('\t]' + comma)
+	print(']')
 
 # return a list with the K shortest paths for the given origin-destination pair,
 # given a network file (this function was created to be called externally by 

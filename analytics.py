@@ -60,7 +60,7 @@ class DynamicPlotter(object):
 		# create the data lines (one for the algorithm and another for the baseline, if specified)
 		self.line_main, = self.axes.plot(self.xdata, self.ydata, 'r-', label=line_label)
 		if baseline != None:
-			self.line_opt, = self.axes.plot([x for x in xrange(init_episode,episodes+init_episode)], [self.__baseline for _ in xrange(init_episode,episodes+init_episode)], 'b--', label='Baseline')
+			self.line_opt, = self.axes.plot([x for x in range(init_episode,episodes+init_episode)], [self.__baseline for _ in range(init_episode,episodes+init_episode)], 'b--', label='Baseline')
 		
 		# some extra configuration
 		plt.legend(loc='upper right')
@@ -104,25 +104,25 @@ class Statistics(object):
 	def print_statistics(self, S, v, best, sum_regrets, routes_costs_sum):
 
 		# print the average regrets of each OD pair along the iterations
-		print '\nAverage regrets over all timesteps (real, estimated, absolute difference, relative difference) per OD pair:'
+		print('\nAverage regrets over all timesteps (real, estimated, absolute difference, relative difference) per OD pair:')
 		for od in self.__P.get_OD_pairs():
-			print '\t%s\t%f\t%f\t%f\t%f' % (od, sum_regrets[od][0] / self.__iterations, sum_regrets[od][1] / self.__iterations, sum_regrets[od][2] / self.__iterations, sum_regrets[od][3] / self.__iterations)
+			print('\t%s\t%f\t%f\t%f\t%f' % (od, sum_regrets[od][0] / self.__iterations, sum_regrets[od][1] / self.__iterations, sum_regrets[od][2] / self.__iterations, sum_regrets[od][3] / self.__iterations))
 		
 		# print the average cost of each route of each OD pair along iterations
-		print '\nAverage cost of routes:'
+		print('\nAverage cost of routes:')
 		for od in self.__P.get_OD_pairs():
-			print od
-			for r in xrange(int(self.__P.get_route_set_size(od))):
+			print(od)
+			for r in range(int(self.__P.get_route_set_size(od))):
 				routes_costs_sum[od][r] /= self.__iterations
-				print '\t%i\t%f' % (r, routes_costs_sum[od][r])
+				print('\t%i\t%f' % (r, routes_costs_sum[od][r]))
 		
-		print '\nLast solution %s = %f' % (S, v)
-		print 'Best value found was of %f' % best
+		print('\nLast solution %s = %f' % (S, v))
+		print('Best value found was of %f' % best)
 		
 		# print the average strategy (for each OD pair)
-		print '\nAverage strategy per OD pair:'
+		print('\nAverage strategy per OD pair:')
 		for od in self.__P.get_OD_pairs():
-			strategies = { r: 0.0 for r in xrange(len(self.__P.get_routes(od))) }
+			strategies = { r: 0.0 for r in range(len(self.__P.get_routes(od))) }
 			for d in self.__D:
 				if d.get_OD_pair() == od:
 					S = d.get_strategy()
@@ -130,9 +130,9 @@ class Statistics(object):
 						strategies[s] += S[s]
 			for s in strategies:
 				strategies[s] = round(strategies[s] / self.__P.get_OD_flow(od), 3)
-			print '\t%s\t%s' % (od, strategies)
+			print('\t%s\t%s' % (od, strategies))
 		
-		print '\nAverage expected cost of drivers per OD pair'
+		print('\nAverage expected cost of drivers per OD pair')
 		expected_cost_sum = { od: 0.0 for od in self.__P.get_OD_pairs() }
 		for d in self.__D:
 			summ = 0.0
@@ -142,8 +142,8 @@ class Statistics(object):
 		total = 0.0
 		for od in self.__P.get_OD_pairs():
 			total += expected_cost_sum[od]
-			print '%s\t%f' % (od, expected_cost_sum[od] / self.__P.get_OD_flow(od))
-		print 'Average: %f' % (total / self.__P.get_total_flow())
+			print('%s\t%f' % (od, expected_cost_sum[od] / self.__P.get_OD_flow(od)))
+		print('Average: %f' % (total / self.__P.get_total_flow()))
 
 	#-------------------------------------------------------------------
 
@@ -251,7 +251,7 @@ class Statistics(object):
 			str_add = ''
 			if self.__print_OD_pairs_every_episode:
 				str_add = '%s' % ('\t'.join(map(str, [item for sublist in to_print for item in sublist])))
-			print '%s\t%s' % (str_print, str_add)
+			print('%s\t%s' % (str_print, str_add))
 
 		# print the regrets on the last iteration
 		#if iteration == iterations-1:

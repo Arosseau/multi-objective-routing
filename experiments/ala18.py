@@ -46,7 +46,7 @@ class ala18(experiment):
         fname.write('pid\talg\tepisodes\tnet\tk\talpha_decay\tepsilon_decay\tagent_vehicles_factor\trep\tavg-tt\treal\test\truntime (s)\n')
         fname.flush()
 
-        for it in xrange(1, rep+1):
+        for it in range(1, rep+1):
         
             print('========================================================================')
             print(' algorithm=%s, episodes=%d, network=%s, k=%d, alpha_decay=%f, epsilon_decay=%f, agent_vehicles_factor=%d, replication=%i' % (alg, episodes, net_name, K, alpha_decay, epsilon_decay, avf, it))
@@ -120,7 +120,7 @@ class ala18(experiment):
     # results should not change given the same random seed is used
     def validate_script(self):
         
-        print "Validating script (it takes around 17min)..."
+        print("Validating script (it takes around 17min)...")
         
         sys.stdout = open(os.devnull, 'w')
 

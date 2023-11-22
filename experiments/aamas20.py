@@ -54,7 +54,7 @@ class aamas20(experiment):
         fname.write('pid\talg\tepisodes\tnet\tk\talpha_decay\tepsilon_decay\ttime_flexibility_distribution\trevenue_division_rate\tagent_vehicles_factor\trep\tavg-tt\treal\test\truntime (s)\n')
         fname.flush()
 
-        for it in xrange(1, rep+1):
+        for it in range(1, rep+1):
         
             print('========================================================================')
             print(' algorithm=%s, episodes=%d, network=%s, k=%d, alpha_decay=%f, epsilon_decay=%f, time_flexibility_distribution=%s %s, revenue_division_rate=%f, agent_vehicles_factor=%f, replication=%i' % (alg, episodes, net_name, K, alpha_decay, epsilon_decay, flex_dist_name, flex_dist_params, revenue_division_rate, avf, it))
@@ -139,7 +139,7 @@ class aamas20(experiment):
     # results should not change given the same random seed is used
     def validate_script(self):
         
-        print "Validating script (it takes around 20min)..."
+        print("Validating script (it takes around 20min)...")
         
         sys.stdout = open(os.devnull, 'w')
 

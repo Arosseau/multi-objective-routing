@@ -259,19 +259,19 @@ class NavigationApp(object):
 		#     +----- avg
 		#     +----- sum
 		#     +----- samples
-		self.__od_route_info = { od: [ {'avg':0.0, 'sum':0.0, 'samples':0, 'last':0.0} for _ in xrange(self.__P.get_route_set_size(od)) ] for od in self.__P.get_OD_pairs() }
+		self.__od_route_info = { od: [ {'avg':0.0, 'sum':0.0, 'samples':0, 'last':0.0} for _ in range(self.__P.get_route_set_size(od)) ] for od in self.__P.get_OD_pairs() }
 		
 		# store the recommendations (sorted list of routes) for each od pair
 		# OD
 		# +-- sorted list
-		#self.__od_recommendation = { od: [ x for x in xrange(self.__P.get_route_set_size()) ] for od in self.__P.get_OD_pairs() }
-		self.__od_recommendation = { od: [ 0.0 for _ in xrange(self.__P.get_route_set_size(od)) ] for od in self.__P.get_OD_pairs() }
+		#self.__od_recommendation = { od: [ x for x in range(self.__P.get_route_set_size()) ] for od in self.__P.get_OD_pairs() }
+		self.__od_recommendation = { od: [ 0.0 for _ in range(self.__P.get_route_set_size(od)) ] for od in self.__P.get_OD_pairs() }
 		
 	def update_info(self, normalise=False):
 		
 		# update the info structure
 		for od in self.__P.get_OD_pairs():
-			for r in xrange(self.__P.get_route_set_size(od)):
+			for r in range(self.__P.get_route_set_size(od)):
 				self.__od_route_info[od][r]['last'] = self.__P.get_route(od, r).get_cost(normalise)
 				self.__od_route_info[od][r]['sum'] += self.__od_route_info[od][r]['last']
 				self.__od_route_info[od][r]['samples'] += 1

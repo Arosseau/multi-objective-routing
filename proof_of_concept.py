@@ -12,18 +12,18 @@ def parse_arguments():
 			super(ValidateAllAction, self).__init__(option_strings=option_strings, dest=dest, default=default, nargs=0, help=help)
 			self.version = version
 		def print_line(self):
-			print '-----------------------------------------------------------------------'
+			print('-----------------------------------------------------------------------')
 		def __call__(self, parser, namespace, values, option_string=None):
 			
 			self.print_line()
-			print '\n Running complete validation (it takes around 65 minutes)...\n'
+			print('\n Running complete validation (it takes around 65 minutes)...\n')
 
 			t_start = time.time()
 
 			# call the validation procedure of every experiment class
 			for c in sorted([x.__name__ for x in experiment.__subclasses__()]):
 				self.print_line()
-				print 'validating script of experiment \'%s\'' % (c)
+				print('validating script of experiment \'%s\'' % (c))
 				self.print_line()
 
 				exp = globals()[c]()
@@ -32,11 +32,11 @@ def parse_arguments():
 				exp.validate_script()
 				p_runtime = time.time() - p_start
 
-				print '\nRuntime: %f seconds\n' % p_runtime
+				print('\nRuntime: %f seconds\n' % p_runtime)
 
 			t_runtime = time.time() - t_start
 			self.print_line()
-			print '\nTotal runtime: %s minutes\n' % (t_runtime/60.0)
+			print('\nTotal runtime: %s minutes\n' % (t_runtime/60.0))
 			self.print_line()
 
 			parser.exit()

@@ -51,7 +51,7 @@ class thesis(experiment):
 					values = taglist2[1][1:-1].split(',')
 					for alg_name in values:
 						if alg_name not in ['aamas17', 'aamas17stdql', 'trc18', 'aamas18', 'deltatolling', 'differencerewards']:
-							print 'Algorithm "%s" does not exist!' % alg_name
+							print('Algorithm "%s" does not exist!' % alg_name)
 							sys.exit()
 				elif taglist2[0] == 'net': # string values
 					values = taglist2[1][1:-1].split(',')
@@ -71,7 +71,7 @@ class thesis(experiment):
 					values = [ float(x) for x in taglist2[1][1:-1].split(',') ]
 					joint_decays = True
 				else:
-					print 'Invalid config file! (taglist: "%s")' % e
+					print('Invalid config file! (taglist: "%s")' % e)
 					sys.exit()
 				
 				this_set.append([taglist2[0], len(values), values])
@@ -82,7 +82,7 @@ class thesis(experiment):
 				exps *= len(values)
 				
 			if joint_decays and indep_decays:
-				print 'An entry of the config file should specify either joint decays (specifying only the "decay" field, so that alpha and epsilon are the same) OR independent decays (specifying both "alpha_decay" and "epsilon_decay" fields, so that alpha and epsilon can have different values)!'
+				print('An entry of the config file should specify either joint decays (specifying only the "decay" field, so that alpha and epsilon are the same) OR independent decays (specifying both "alpha_decay" and "epsilon_decay" fields, so that alpha and epsilon can have different values)!')
 				sys.exit()
 
 			if joint_decays:
@@ -98,7 +98,7 @@ class thesis(experiment):
 			else:
 				missing.remove('decays')
 			if len(missing) > 0:
-				print 'One or more keys (%s) are missing in the following configuration line: %s' % (missing, line)
+				print('One or more keys (%s) are missing in the following configuration line: %s' % (missing, line))
 				sys.exit()
 
 
@@ -119,14 +119,14 @@ class thesis(experiment):
 			
 			# if the control file is empty (this is not expected) throw exception
 			if os.stat(control_file_name).st_size < 3:
-				print 'The control file is empty!'
+				print('The control file is empty!')
 				sys.exit()
 			
 			control_file = open(control_file_name, 'r+')
 			
 			status = control_file.read().strip()
 			if status == 'finished':
-				print 'Experiment already finished!'
+				print('Experiment already finished!')
 				sys.exit()
 			
 			else:
@@ -139,7 +139,7 @@ class thesis(experiment):
 			control_file = open(control_file_name, 'w+')
 			control_file.write('1#0')
 		
-		print 'Running %d experiments%s...' % (N_EXPERIMENTS, '' if CUR_ATEMPT == 1 else ' (attempt number %d, skipping %d experiments)'%(CUR_ATEMPT, LAST_EXP))
+		print('Running %d experiments%s...' % (N_EXPERIMENTS, '' if CUR_ATEMPT == 1 else ' (attempt number %d, skipping %d experiments)'%(CUR_ATEMPT, LAST_EXP)))
 		
 		sys.stdout = open('experiments/results/log_params_thesis%s.txt'%('' if CUR_ATEMPT == 1 else '_attempt%d'%CUR_ATEMPT), 'w')
 		
@@ -152,13 +152,13 @@ class thesis(experiment):
 		# defined in the file
 		for SET in SETS:
 			order = SET[-1]
-			for p1 in xrange(SET[0][1]):
-				for p2 in xrange(SET[1][1]):
-					for p3 in xrange(SET[2][1]):
-						for p4 in xrange(SET[3][1]):
-							for p5 in xrange(SET[4][1]):
-								for p6 in xrange(SET[5][1]):
-									for p7 in xrange(SET[6][1]):
+			for p1 in range(SET[0][1]):
+				for p2 in range(SET[1][1]):
+					for p3 in range(SET[2][1]):
+						for p4 in range(SET[3][1]):
+							for p5 in range(SET[4][1]):
+								for p6 in range(SET[5][1]):
+									for p7 in range(SET[6][1]):
 									
 										pars = [p1, p2, p3, p4, p5, p6, p7]
 										episodes = SET[order['episodes']][2][0]
@@ -176,13 +176,13 @@ class thesis(experiment):
 
 										CUR_EXP += 1
 										
-										print '========================================================================'
-										print ' Experiment %i of %i' % (CUR_EXP, N_EXPERIMENTS)
-										print ' algorithm=%s, episodes=%d, network=%s, k=%d, alpha_decay=%f, epsilon_decay=%f, replication=%i' % (alg, episodes, net_name, K, alpha_decay, epsilon_decay, rep)
-										print '========================================================================\n'
+										print('========================================================================')
+										print(' Experiment %i of %i' % (CUR_EXP, N_EXPERIMENTS))
+										print(' algorithm=%s, episodes=%d, network=%s, k=%d, alpha_decay=%f, epsilon_decay=%f, replication=%i' % (alg, episodes, net_name, K, alpha_decay, epsilon_decay, rep))
+										print('========================================================================\n')
 										
 										if CUR_EXP <= LAST_EXP:
-											print 'Skipped!\n'
+											print('Skipped!\n')
 										
 										else:
 											
@@ -228,7 +228,7 @@ class thesis(experiment):
 												values = run_simulation(P, episodes, alpha=1.0, epsilon=1.0, alpha_decay=alpha_decay, epsilon_decay=epsilon_decay, min_alpha=0.0, min_epsilon=0.0, normalise_costs=True, regret_as_cost=REGRET_AS_COST, extrapolate_costs=EXTRAPOLATE_COSTS, use_app=USE_APP, difference_rewards=DIFFERENCE_REWARDS, a_posteriori_MCT=A_POSTERIORI_MCT, delta_tolling=DELTA_TOLLING, thesis_delta_tolling=THESIS_DELTA_TOLLING, plot_results=False, stat_all=True, stat_regret_diff=STAT_REGRET_DIFF)
 												
 											except Exception:
-												print '[ERROR] Some exception prevented this experiment from finishing!'
+												print('[ERROR] Some exception prevented this experiment from finishing!')
 											else:
 												None
 											runtime = time.time() - start
@@ -237,7 +237,7 @@ class thesis(experiment):
 											fname.write('%i\t%s\t%d\t%s\t%d\t%f\t%f\t%i\t%f\t%f\t%f\t%f\n' % (CUR_EXP, alg, episodes, net_name, K, alpha_decay, epsilon_decay, rep, values[0], values[1], values[2], runtime))
 											fname.flush()
 											
-											print '\n========================================================================\n'
+											print('\n========================================================================\n')
 											sys.stdout.flush()
 											
 											LAST_EXP = CUR_EXP
@@ -255,7 +255,7 @@ class thesis(experiment):
 		sys.stdout = sys.__stdout__
 		control_file.close()
 		
-		print 'finished!'
+		print('finished!')
 		
 	#-----------------------------------------------------------------------
 	# check whether the script is still producing the original results 
@@ -264,7 +264,7 @@ class thesis(experiment):
 	# results should not change given the same random seed is used
 	def validate_script(self):
 		
-		print "Validating script (it takes around 13min)..."
+		print("Validating script (it takes around 13min)...")
 		
 		sys.stdout = open(os.devnull, 'w')
 

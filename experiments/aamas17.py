@@ -24,7 +24,7 @@ class aamas17(experiment):
         ALGS = [True, False] # True=Ours, False=stdQL
         
         num_exps = REPLICATIONS * len(NETWORKS_ANDN_DECAYS) * len(ALGS)
-        print 'Running %d experiments...' % (num_exps)
+        print('Running %d experiments...' % (num_exps))
         
         sys.stdout = open('experiments/results/log_params_AAMAS_camera_ready.txt', 'w')
         
@@ -34,25 +34,25 @@ class aamas17(experiment):
         exp = 0
         for alg in ALGS:
             alg_name = ('Ours' if alg else 'stdQL')
-            for net_id in xrange(len(NETWORKS_ANDN_DECAYS)):
+            for net_id in range(len(NETWORKS_ANDN_DECAYS)):
                 net_name = NETWORKS_ANDN_DECAYS[net_id][0]
                 decay = NETWORKS_ANDN_DECAYS[net_id][1]
-                for rep in xrange(1,REPLICATIONS+1):
+                for rep in range(1,REPLICATIONS+1):
                     
                     P = ProblemInstance(net_name)
                     exp += 1
                     
-                    print '========================================================================'
-                    print ' Experiment %i of %i' % (exp, num_exps)
-                    print ' algorithm=%s, network=%s, replication=%i' % (alg_name, net_name, rep)
-                    print '========================================================================\n'
+                    print('========================================================================')
+                    print(' Experiment %i of %i' % (exp, num_exps))
+                    print(' algorithm=%s, network=%s, replication=%i' % (alg_name, net_name, rep))
+                    print('========================================================================\n')
                     
                     start = time.time()
                     values = [0, 0, 0]
                     try:
                         values = run_simulation(P, 10000, alpha=1.0, epsilon=1.0, alpha_decay=decay, epsilon_decay=decay, min_alpha=0.0, min_epsilon=0.0, normalise_costs=True, regret_as_cost=alg, extrapolate_costs=alg, plot_results=False)
                     except Exception:
-                        print '[ERROR] Some exception prevented this experiment from finishing!'
+                        print('[ERROR] Some exception prevented this experiment from finishing!')
                     else:
                         None
                     runtime = time.time() - start
@@ -61,13 +61,13 @@ class aamas17(experiment):
                     fname.write('%i\t%s\t%s\t%i\t%f\t%f\t%f\t%f\n' % (exp, alg_name, net_name, rep, values[0], values[1], values[2], runtime))
                     fname.flush()
                     
-                    print '\n========================================================================\n'
+                    print('\n========================================================================\n')
                     sys.stdout.flush()
             
         fname.close()
         sys.stdout = sys.__stdout__
         
-        print 'finished!'
+        print('finished!')
 
     #-----------------------------------------------------------------------
     # check whether the script is still producing the original results 
@@ -76,7 +76,7 @@ class aamas17(experiment):
     # results should not change given the same random seed is used
     def validate_script(self):
         
-        print "Validating script (it takes around 15 seconds)..."
+        print("Validating script (it takes around 15 seconds)...")
         
         sys.stdout = open(os.devnull, 'w')
         
@@ -102,7 +102,7 @@ class aamas17(experiment):
             sys.stderr.write("Error while validating script on network Braess_3_4200_10_c1! [%s]\n" % ', '.join(map(str,[repr(x) for x in res])))
         
         sys.stdout = sys.__stdout__
-        print "Finished!"
+        print("Finished!")
 
     #-----------------------------------------------------------------------
 

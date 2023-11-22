@@ -122,7 +122,7 @@ def run_simulation(P, iterations=1000, alpha=0.5, epsilon=1.0, alpha_decay=0.99,
 		
 		# create the drivers
 		#print 'OD pair %s has %d agents with %f flow each (remainder is %f)' % (od, n_of_agents, agent_vehicles_factor, remainder)
-		for i in xrange(n_of_agents):
+		for i in range(n_of_agents):
 			flow = agent_vehicles_factor
 			if i == 0 and remainder > 0.0:
 				flow = remainder
@@ -136,7 +136,7 @@ def run_simulation(P, iterations=1000, alpha=0.5, epsilon=1.0, alpha_decay=0.99,
 	for od in od_flow_check:
 		ofc = Decimal(str(P.get_OD_flow(od)))
 		if ofc != od_flow_check[od]:
-			print '[ERROR] OD pair %s should have a flow of %f but has of %f (difference of %f)!' % (od, ofc, od_flow_check[od], ofc-od_flow_check[od])
+			print('[ERROR] OD pair %s should have a flow of %f but has of %f (difference of %f)!' % (od, ofc, od_flow_check[od], ofc-od_flow_check[od]))
 			errors_count += 1
 	if errors_count > 0:
 		raise Exception('Error on the decimal representation of %d OD pairs!' % errors_count)
@@ -150,12 +150,12 @@ def run_simulation(P, iterations=1000, alpha=0.5, epsilon=1.0, alpha_decay=0.99,
 		difference_reward_per_link = { link : { fr: 0.0 for fr in flow_rates} for link in P.get_links() }
 
 		# difference reward per route and OD pair
-		difference_reward_per_route = { od: [ { fr: 0.0 for fr in flow_rates} for _ in xrange(P.get_route_set_size(od)) ] for od in P.get_OD_pairs() }
+		difference_reward_per_route = { od: [ { fr: 0.0 for fr in flow_rates} for _ in range(P.get_route_set_size(od)) ] for od in P.get_OD_pairs() }
 	else:
 		difference_reward_per_route = None
 
 	# sum of routes' costs along time (used to compute the averages)
-	routes_costs_sum = { od: [ 0.0 for _ in xrange(P.get_route_set_size(od)) ] for od in P.get_OD_pairs() }
+	routes_costs_sum = { od: [ 0.0 for _ in range(P.get_route_set_size(od)) ] for od in P.get_OD_pairs() }
 	routes_costs_min = { od: 0.0 for od in P.get_OD_pairs() }
 	
 	# sum of the average regret per OD pair (used to measure the 
@@ -183,12 +183,12 @@ def run_simulation(P, iterations=1000, alpha=0.5, epsilon=1.0, alpha_decay=0.99,
 				if stat_regret_diff:
 					head1 = '%s\t\t' % (head1)
 					head2 = '%s\tdiff\treldiff' % (head2)
-		print head1
-		print head2
+		print(head1)
+		print(head2)
 
 	# run the simulation
 	best = float('inf')
-	for iteration in xrange(ITERATIONS):
+	for iteration in range(ITERATIONS):
 		
 		# flush stdout
 		sys.stdout.flush()
@@ -288,7 +288,7 @@ def run_simulation(P, iterations=1000, alpha=0.5, epsilon=1.0, alpha_decay=0.99,
 			tf = P.get_total_flow() # total flow
 			tc = norm_v * tf # total cost
 			for od in P.get_OD_pairs():
-				for r in xrange(int(P.get_route_set_size(od))):
+				for r in range(int(P.get_route_set_size(od))):
 					for fr in flow_rates:
 					
 						# sum the links' cost differences
@@ -310,7 +310,7 @@ def run_simulation(P, iterations=1000, alpha=0.5, epsilon=1.0, alpha_decay=0.99,
 		if a_posteriori_MCT or delta_tolling or thesis_delta_tolling:
 			
 			if revenue_division_rate > 0.0:
-				tolls_share_per_OD = [ 0.0 for _ in xrange(len(P.get_OD_pairs())) ]
+				tolls_share_per_OD = [ 0.0 for _ in range(len(P.get_OD_pairs())) ]
 
 			for d in D:
 				
@@ -373,7 +373,7 @@ def run_simulation(P, iterations=1000, alpha=0.5, epsilon=1.0, alpha_decay=0.99,
 
 		# update the sum of routes' costs (used to compute the averages)
 		for od in P.get_OD_pairs():
-			for r in xrange(int(P.get_route_set_size(od))):
+			for r in range(int(P.get_route_set_size(od))):
 				cc = P.get_route(od, r).get_cost(NORMALISE_COSTS)
 				if a_posteriori_MCT or delta_tolling or thesis_delta_tolling:
 					# NOTE: I do not know exactly why, but regret is not being computed  
